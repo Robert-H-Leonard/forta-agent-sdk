@@ -96,7 +96,7 @@ yargs
         type: 'string'
       }).requiresArg('agentId')
       .option('agentId', {
-        description: 'Address of agent',
+        description: 'Id of agent',
         type: 'string'
       })
 
