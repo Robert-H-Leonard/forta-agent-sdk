@@ -14,7 +14,7 @@ export function provideGetAgentLogs(
     if( !fortaApiUrl?.length) return [];
 
     try {
-      const response = await axios.get(`${fortaApiUrl}/logs/agents/${agentId}`, {
+      const { data } = await axios.get(`${fortaApiUrl}/logs/agents/${agentId}`, {
         headers: {
           "accept": "application/json",
         },
@@ -23,13 +23,11 @@ export function provideGetAgentLogs(
         }
       });
 
-      const { data } = response;
-
-      if (data.error) throw new Error(data.error.message);
+      if (data?.error) throw new Error(data.error.message);
 
       return data;
     } catch(err) {
-      console.warn(`Error retrieving agent because ${err}`)
+      console.log(`Error retrieving agent because ${err}`)
     }
   }
 }
