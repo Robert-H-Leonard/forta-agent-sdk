@@ -121,6 +121,21 @@ describe("logs", () => {
     expect(mockContainer.resolve).toHaveBeenCalledWith("getAgentLogs");
     expect(consoleSpy).toBeCalledTimes(1)
   })
+
+  it("defaults to the last 24 hours of logs if no time range passed in", async () => {
+    const MINUTES_IN_A_DAY = 1440;
+
+    mockContainer.resolve.mockReturnValueOnce(mockGetAgentLogs)
+
+    mockGetAgentLogs.mockReturnValueOnce([])
+
+    await logs({agentId: mockAgentId})
+
+    expect(mockContainer.resolve).toHaveBeenCalledTimes(1);
+    expect(mockContainer.resolve).toHaveBeenCalledWith("getAgentLogs");
+    expect(mockGetAgentLogs).toHaveBeenCalledTimes(MINUTES_IN_A_DAY + 1);
+    expect(consoleSpy).toBeCalledTimes(0)
+  })
 })
 
 describe("shouldScanForwardOrBackward", () => {
