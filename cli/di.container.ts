@@ -45,6 +45,8 @@ import provideGetNetworkId from './utils/get.network.id'
 import provideGetBlockWithTransactions from './utils/get.block.with.transactions'
 import provideGetTransactionReceipt from './utils/get.transaction.receipt'
 import provideGetKeyfile from './utils/get.keyfile'
+import { provideGetAgentLogs } from './utils/get.agent.logs'
+import provideLogs from './commands/logs'
 
 export default function configureContainer(commandName: CommandName, cliArgs: any) {
   const container = createContainer({ injectionMode: InjectionMode.CLASSIC });
@@ -85,6 +87,7 @@ export default function configureContainer(commandName: CommandName, cliArgs: an
 
     init: asFunction(provideInit),
     run: asFunction(provideRun),
+    logs: asFunction(provideLogs),
     publish: asFunction(providePublish),
     push: asFunction(providePush),
     disable: asFunction(provideDisable),
@@ -176,9 +179,11 @@ export default function configureContainer(commandName: CommandName, cliArgs: an
     getTransactionReceipt: asFunction(provideGetTransactionReceipt),
 
     getTraceData: asFunction(provideGetTraceData),
+    getAgentLogs: asFunction(provideGetAgentLogs),
     traceRpcUrl: asFunction((fortaConfig: FortaConfig) => {
       return fortaConfig.traceRpcUrl
     }).singleton(),
+    fortaApiUrl: asValue('https://api.forta.network'),
     traceBlockMethod: asFunction((fortaConfig: FortaConfig) => {
       return fortaConfig.traceBlockMethod || "trace_block"
     }).singleton(),
